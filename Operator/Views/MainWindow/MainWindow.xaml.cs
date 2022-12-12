@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.ComponentModel;
+﻿using System.Windows;
 using System.Threading;
+using System.Configuration;
 
-using Operator.DbServices;
 
 using Operator.Views;
-
+using OperatorSettLib;
 
 namespace Operator
 {
@@ -22,11 +15,13 @@ namespace Operator
     {
 
         Semaphore singleApp;
+        string cnn;
         
         public MainWindow()
         {
             InitializeComponent();
-                        
+
+            cnn = ConfigurationManager.ConnectionStrings["cnnStr"].ConnectionString;
         }
                
        
@@ -35,7 +30,7 @@ namespace Operator
             EnterDialog();
 
             //Сигнализирую - оператор подключился
-            ReadOperatorSett._updateOperator(App.currOperator.OperatorSurname, 0b1);
+            RWOperatorSett._updateOperator(App.currOperator.OperatorSurname, 0b1,cnn);
 
             App.eventWaitForStart.Set();    
                        
@@ -43,7 +38,7 @@ namespace Operator
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {           
-            ReadOperatorSett._updateOperator(App.currOperator.OperatorSurname, 0);
+            RWOperatorSett._updateOperator(App.currOperator.OperatorSurname, 0,cnn);
         }
                
         private void EnterDialog()

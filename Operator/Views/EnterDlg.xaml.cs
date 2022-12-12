@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using Operator.Data;
+using OperatorSettLib;
 
 
 namespace Operator.Views
@@ -27,16 +27,16 @@ namespace Operator.Views
             InitializeComponent();
         }
 
-        public currOperator GetEnterSett
+        public OperatorSett GetEnterSett
         {
             get
             {
-                glOperator op = (glOperator)User.SelectedItem;
-                currOperator currOperator = new currOperator();
-                currOperator.Id = (int)op.Id;
+                OperatorSett op = (OperatorSett)User.SelectedItem;
+                OperatorSett currOperator = new OperatorSett();
+                currOperator.Id = op.Id;
                 currOperator.OperatorSurname = op.OperatorSurname;
                 currOperator.Ipaddress = op.Ipaddress;
-                currOperator.Ipport = (int)op.Ipport;
+                currOperator.Ipport = op.Ipport;
                 currOperator.Password = pass.Password;
                 return currOperator;
             }

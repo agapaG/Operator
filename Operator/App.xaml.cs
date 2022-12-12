@@ -8,7 +8,7 @@ using System.Windows;
 using System.Threading;
 
 
-using Operator.Data;
+using OperatorSettLib;
 
 namespace Operator
 {
@@ -19,7 +19,7 @@ namespace Operator
     {
         public static bool EndWork { get; set; }
 
-        internal static currOperator currOperator = new currOperator();
+        internal static OperatorSett currOperator = new OperatorSett();
         internal static EventWaitHandle eventWaitForStart = new EventWaitHandle(false, EventResetMode.AutoReset);
 
     }

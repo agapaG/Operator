@@ -7,13 +7,14 @@ using Operator.Models;
 using Operator.Data;
 using System.Windows.Data;
 using System.Windows;
+using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Xml.Serialization;
 using System.Threading;
-using System.Diagnostics;
-using Operator.DbServices;
+
+using OperatorSettLib;
 
 namespace Operator.ViewModels
 {
@@ -71,7 +72,7 @@ namespace Operator.ViewModels
             byte[] buffer = null;
 
             App.eventWaitForStart.WaitOne();
-
+            string cnn = ConfigurationManager.ConnectionStrings["cnnStr"].ConnectionString;
             //Инициализируем точку соединения (прослушка сервера)
             IPEndPoint ipServer = new IPEndPoint(IPAddress.Parse(App.currOperator.Ipaddress), App.currOperator.Ipport);
 
@@ -111,7 +112,7 @@ namespace Operator.ViewModels
 
                         dataPackages.Add(dataPackage);
 
-                        cStatuses = (List<CStatus>)ReadStatus_Tbl._getStatus();
+                        cStatuses = (List<CStatus>)RWStatusSett._getStatus(cnn);
 
                         for (int i = 0; i < dataPackages.Count; ++i)
                         {

@@ -8,23 +8,22 @@ using System.Collections.ObjectModel;
 
 using System.Configuration;
 using Operator.ViewModels.Base;
-using Operator.DbServices;
-using Operator.Data;
+using OperatorSettLib;
 
 namespace Operator.ViewModels
 {
     internal class EnterDlgViewModel : BaseViewModel
     {
         #region Свойства
-        public ObservableCollection<glOperator> Operators { get; }
-        private glOperator selectedRow;
-        public glOperator SelectedRow { get => selectedRow; set => Set(ref selectedRow, value); }
+        public ObservableCollection<OperatorSett> Operators { get; }
+        private OperatorSett selectedRow;
+        public OperatorSett SelectedRow { get => selectedRow; set => Set(ref selectedRow, value); }
         #endregion
         
         public EnterDlgViewModel()
         {
-            Operators = ReadOperatorSett._get_Operators();
-
+            string cnn = ConfigurationManager.ConnectionStrings["cnnStr"].ConnectionString;
+            Operators = RWOperatorSett._get_Operators(cnn);
         }
     }
 }
