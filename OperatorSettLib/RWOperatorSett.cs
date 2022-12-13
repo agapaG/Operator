@@ -1,21 +1,28 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Windows.Forms;
+using System.Linq;
 
 namespace OperatorSettLib
 {
     public class RWOperatorSett
     {
-        public static ObservableCollection<OperatorSett> _get_Operators(string cnn)
-        {
-            ObservableCollection<OperatorSett> operators = new ObservableCollection<OperatorSett>();
+        private readonly string connectionString;
 
-            using (SqlConnection SqlCnn = new SqlConnection(cnn))
+        public RWOperatorSett(string connectionString)
+        {
+            this.connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        }
+
+        public IEnumerable<OperatorSett> ReadOperators()
+        {
+            using (SqlConnection SqlCnn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = null;
 
                 try
                 {
+                    List<OperatorSett> operators = new List<OperatorSett>();
                     SqlCnn.Open();
 
                     string CommandText = "select * from Operators";
@@ -37,24 +44,23 @@ namespace OperatorSettLib
                     }
 
                     cmd.Transaction.Commit();
+                    return operators.Select(op => op);
                 }
                 catch (SqlException ex)
                 {
                     cmd.Transaction.Rollback();
                     cmd.Transaction.Dispose();
-                    MessageBox.Show("Read Operators Lib" + ex.Message);
                     if (SqlCnn.State == System.Data.ConnectionState.Open)
                         SqlCnn.Close();
-                    return null;
+                    throw ex;
                 }
             }
 
-            return operators;
         }
 
-        public static void _updateOperator(string nameOper, byte OnOff, string cnn)
+        public void UpdateOperator(string nameOper, byte OnOff)
         {
-            using (SqlConnection SqlCnn = new SqlConnection(cnn))
+            using (SqlConnection SqlCnn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = null;
 
@@ -67,20 +73,17 @@ namespace OperatorSettLib
                     cmd.Parameters.AddWithValue("@1", nameOper);
                     cmd.Parameters.AddWithValue("@2", OnOff);
 
-
                     cmd.Transaction = SqlCnn.BeginTransaction();
                     cmd.ExecuteNonQuery();
                     cmd.Transaction.Commit();
-
                 }
                 catch (SqlException ex)
                 {
                     cmd.Transaction.Rollback();
                     cmd.Transaction.Dispose();
-                    MessageBox.Show("Update Operators Lib" + ex.Message);
                     if (SqlCnn.State == System.Data.ConnectionState.Open)
                         SqlCnn.Close();
-                    return;
+                    throw ex;
                 }
             }
 

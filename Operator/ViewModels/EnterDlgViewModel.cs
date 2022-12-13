@@ -23,7 +23,7 @@ namespace Operator.ViewModels
         public EnterDlgViewModel()
         {
             string cnn = ConfigurationManager.ConnectionStrings["cnnStr"].ConnectionString;
-            Operators = RWOperatorSett._get_Operators(cnn);
+            Operators = RWOperatorSett.ReadOperators(cnn);
         }
     }
 }

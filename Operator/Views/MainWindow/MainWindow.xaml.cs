@@ -30,7 +30,7 @@ namespace Operator
             EnterDialog();
 
             //Сигнализирую - оператор подключился
-            RWOperatorSett._updateOperator(App.currOperator.OperatorSurname, 0b1,cnn);
+            RWOperatorSett.UpdateOperator(App.currOperator.OperatorSurname, 0b1,cnn);
 
             App.eventWaitForStart.Set();    
                        
@@ -38,7 +38,7 @@ namespace Operator
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {           
-            RWOperatorSett._updateOperator(App.currOperator.OperatorSurname, 0,cnn);
+            RWOperatorSett.UpdateOperator(App.currOperator.OperatorSurname, 0,cnn);
         }
                
         private void EnterDialog()

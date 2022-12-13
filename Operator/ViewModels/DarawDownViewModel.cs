@@ -112,7 +112,7 @@ namespace Operator.ViewModels
 
                         dataPackages.Add(dataPackage);
 
-                        cStatuses = (List<CStatus>)RWStatusSett._getStatus(cnn);
+                        cStatuses = (List<CStatus>)RWStatusSett.GetStatuses(cnn);
 
                         for (int i = 0; i < dataPackages.Count; ++i)
                         {
