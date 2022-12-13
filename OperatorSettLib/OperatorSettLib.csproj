@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CStatus.cs" />
     <Compile Include="OperatorLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RWOperatorSett.cs" />
+    <Compile Include="RWStatusSett.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
